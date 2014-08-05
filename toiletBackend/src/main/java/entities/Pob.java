@@ -6,16 +6,21 @@
 package entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
-import javax.persistence.Basic;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,17 +33,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Pob implements Serializable {
 
     @Id
-    @Basic(optional = false)
+    @GeneratedValue
     private int pobId;
 
-    private Double lat;
-    private Double lnt;
+    private Double lat = 0.0;
+    private Double lnt = 0.0;
+    private String creationDate = "0000-00-00";
+    private String creatorId = "0000";
+    private String description = "";
+    private Double rating = 0.0;
+    private Double ratingSum = 0.0;
+    private Integer rateCount = 0;
 
-    private Timestamp creationDate;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="pobId")
+    private List<Comment> commentCollection = new ArrayList<Comment>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Collection<Rating> ratingCollection;
+    @XmlElement
+    public int getPobId() {
+        return pobId;
+    }
 
+    @XmlElement
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    @XmlElement
+    public Double getRating() {
+        return rating;
+    }
+
+    @XmlTransient
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    @XmlElement
     public Double getLat() {
         return lat;
     }
@@ -47,6 +82,7 @@ public class Pob implements Serializable {
         this.lat = lat;
     }
 
+    @XmlElement
     public Double getLnt() {
         return lnt;
     }
@@ -55,27 +91,46 @@ public class Pob implements Serializable {
         this.lnt = lnt;
     }
 
-    public Timestamp getCreationDate() {
+    @XmlElement
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public int getPobId() {
-        return pobId;
+    @XmlTransient
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
     }
 
-    public void setPobId(int pobId) {
-        this.pobId = pobId;
+    @XmlTransient
+    public void setRateCount(Integer rateCount) {
+        this.rateCount = rateCount;
     }
 
-    public Collection<Rating> getRatingCollection() {
-        return ratingCollection;
+    @XmlElement
+    public Integer getRateCount() {
+        return rateCount;
+    }        
+
+    @XmlTransient
+    public Double getRatingSum() {
+        return ratingSum;
     }
 
-    public void setRatingCollection(Collection<Rating> ratingCollection) {
-        this.ratingCollection = ratingCollection;
+    @XmlTransient
+    public void setRatingSum(Double ratingSum) {
+        this.ratingSum = ratingSum;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }        
+       
 }

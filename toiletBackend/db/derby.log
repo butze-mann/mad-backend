@@ -1,11 +1,1 @@
-Wed Jul 23 20:49:51 CEST 2014 : Apache Derby Network Server 10.9.1.0 - (1344872) wurde gestartet und ist bereit, Verbindungen am Port 1527 zu akzeptieren.
-----------------------------------------------------------------
-Wed Jul 23 20:50:30 CEST 2014:
-Booten von Derby Version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): Instanz a816c00e-0147-648e-e0dc-ffffa332a40c
-für Datenbankverzeichnis /media/download/work/git/mad-backend/toiletBackend/db/sun-appserv-samples   mit Klassenladeprogrammn sun.misc.Launcher$AppClassLoader@55c4d594
-
-java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_65-b17
-user.dir=/media/download/opt/glassfish-4.0/javadb
-derby.system.home=/media/download/work/git/mad-backend/toiletBackend/db
-Das Ladeprogramm für Datenbankklassen wurde gestartet - derby.database.classpath=''
+Sat Aug 02 16:22:38 CEST 2014 : Apache Derby Network Server 10.9.1.0 - (1344872) wurde gestartet und ist bereit, Verbindungen am Port 1527 zu akzeptieren.

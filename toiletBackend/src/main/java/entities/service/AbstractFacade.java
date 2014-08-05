@@ -1,11 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities.service;
 
+import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
+import entities.Comment;
+import entities.Pob;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import javax.ejb.EJBException;
 import javax.persistence.EntityManager;
 
 /**
@@ -24,6 +31,76 @@ public abstract class AbstractFacade<T> {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+    }
+
+    public void addCommentToPob(Comment c, Integer pobId) throws Exception {
+        //schauen ob passendes pob gefunden wird        
+        Pob p = getEntityManager().find(Pob.class, pobId);
+
+        if (p == null) {
+            throw new EJBException("noPob");
+        }
+
+        //comment persisten
+        getEntityManager().persist(c);
+
+        //dann zur Pob-commentliste hinzufuegen
+        p.getCommentCollection().add(c);
+        System.out.println("test____________________________________");
+        getEntityManager().persist(p);
+    }
+
+    public Collection<Comment> getCommentsToPob(Integer pobId) throws Exception {
+        Pob p = getEntityManager().find(Pob.class, pobId);
+        if (p == null) {
+            throw new EJBException("noPob");
+        }
+        return p.getCommentCollection();
+    }
+
+    public Double setAndGetNewRating(Integer pobId, Integer rating) throws Exception {
+        Pob p = getEntityManager().find(Pob.class, pobId);
+        if (p == null) {
+            throw new Exception("noPob");
+        }
+
+        //berechne neues Rating
+        Integer rateCount = p.getRateCount();
+        Double sumRating = p.getRatingSum();
+
+        rateCount++;
+
+        System.out.println("setNEwRating: rechne " + sumRating + " + " + rating + " / " + rateCount);
+        Double newRating = (sumRating + rating) / rateCount;
+
+        p.setRatingSum(sumRating + rating);
+        p.setRating(newRating);
+        p.setRateCount(rateCount);
+
+        getEntityManager().merge(p);
+
+        return newRating;
+    }
+
+    public TreeMap<Double, Pob> nearestPob(Double fromLat, Double fromLng, Double maxKm) {
+        TreeMap<Double, Pob> sortedList = new TreeMap<>();
+
+        LatLng fromPoint = new LatLng(fromLat, fromLng);
+
+        //hole alle Pobs
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        List<Pob> listPob = getEntityManager().createQuery(cq).getResultList();
+
+        //vergleiche alle distances
+        for (Pob p : listPob) {
+            LatLng tmpPoint = new LatLng(p.getLat(), p.getLnt());
+            Double distance = LatLngTool.distance(fromPoint, tmpPoint, LengthUnit.KILOMETER);
+            if (distance <= maxKm) {
+                sortedList.put(distance, p);
+            }
+        }
+        return sortedList;
     }
 
     public void edit(T entity) {

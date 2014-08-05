@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities.service;
 
 import java.util.Set;
@@ -10,9 +5,9 @@ import javax.ws.rs.core.Application;
 
 /**
  *
- * @author milan
+ * @author Michael Schroeder <michael.schroeder.1@hs-osnabrueck.de>
  */
-@javax.ws.rs.ApplicationPath("webresources")
+@javax.ws.rs.ApplicationPath("")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -29,10 +24,9 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(entities.service.CustomerFacadeREST.class);
-        resources.add(entities.service.DiscountCodeFacadeREST.class);
-        resources.add(entities.service.MicroMarketFacadeREST.class);
+        resources.add(entities.service.CommentREST.class);
         resources.add(entities.service.PobREST.class);
+        resources.add(entities.service.UserREST.class);
     }
     
 }
