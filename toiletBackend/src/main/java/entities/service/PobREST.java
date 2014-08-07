@@ -1,5 +1,6 @@
 package entities.service;
 
+import de.hs.os.toiletbackend.NearestGeoPop;
 import entities.Pob;
 import java.util.List;
 import java.util.TreeMap;
@@ -57,13 +58,26 @@ public class PobREST extends AbstractFacade<Pob> {
     }
 
     @GET
-    @Path("nearest/{lat}/{lnt}")
+    @Path("{id}/rate")
     @Produces(MediaType.TEXT_PLAIN)
-    public TreeMap<Double, Pob> getNearest(
+    public Double getRating(@PathParam("id") Integer id) {
+        try {
+            //todo nur einmal pro devid
+            return super.find(id).getRating();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+    }
+
+    @GET
+    @Path("nearest/{lat}/{lnt}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<NearestGeoPop> getNearest(
             @PathParam("lat") Double lat,
             @PathParam("lnt") Double lnt) {
         try {
-            return super.nearestPob(lat, lnt, 500.0);
+            return super.nearestPob(lat, lnt, 50000.0);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);

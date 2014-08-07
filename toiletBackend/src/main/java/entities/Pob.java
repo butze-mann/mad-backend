@@ -5,6 +5,7 @@
  */
 package entities;
 
+import helper.GlobalFunc;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,8 +47,12 @@ public class Pob implements Serializable {
     private Integer rateCount = 0;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="pobId")
+    @JoinColumn(name = "pobId")
     private List<Comment> commentCollection = new ArrayList<Comment>();
+
+    public Pob() {
+        this.creationDate = GlobalFunc.getDate();
+    }
 
     @XmlElement
     public int getPobId() {
@@ -113,7 +118,7 @@ public class Pob implements Serializable {
     @XmlElement
     public Integer getRateCount() {
         return rateCount;
-    }        
+    }
 
     @XmlTransient
     public Double getRatingSum() {
@@ -131,6 +136,6 @@ public class Pob implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }        
-       
+    }
+
 }

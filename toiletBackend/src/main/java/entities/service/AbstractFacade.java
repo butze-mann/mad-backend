@@ -3,12 +3,12 @@ package entities.service;
 import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
+import de.hs.os.toiletbackend.NearestGeoPop;
 import entities.Comment;
 import entities.Pob;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -82,7 +82,7 @@ public abstract class AbstractFacade<T> {
         return newRating;
     }
 
-    public TreeMap<Double, Pob> nearestPob(Double fromLat, Double fromLng, Double maxKm) {
+    public List<NearestGeoPop> nearestPob(Double fromLat, Double fromLng, Double maxKm) {
         TreeMap<Double, Pob> sortedList = new TreeMap<>();
 
         LatLng fromPoint = new LatLng(fromLat, fromLng);
@@ -100,7 +100,16 @@ public abstract class AbstractFacade<T> {
                 sortedList.put(distance, p);
             }
         }
-        return sortedList;
+
+        List<NearestGeoPop> geoList = new ArrayList<>();
+
+        for (Map.Entry<Double, Pob> entry : sortedList.entrySet()) {
+            Double key = entry.getKey();
+            Pob value = entry.getValue();
+            geoList.add(new NearestGeoPop(key, value));
+        }
+
+        return geoList;
     }
 
     public void edit(T entity) {
