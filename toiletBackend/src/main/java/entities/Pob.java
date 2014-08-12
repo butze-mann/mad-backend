@@ -45,6 +45,8 @@ public class Pob implements Serializable {
     private Double rating = 0.0;
     private Double ratingSum = 0.0;
     private Integer rateCount = 0;
+    private Integer isForFree = 1;
+    private Integer isAccessible = 0;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "pobId")
@@ -102,7 +104,7 @@ public class Pob implements Serializable {
     }
 
     public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = GlobalFunc.getDate();
     }
 
     @XmlTransient
@@ -130,12 +132,31 @@ public class Pob implements Serializable {
         this.ratingSum = ratingSum;
     }
 
+    @XmlElement
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @XmlElement
+    public Integer getIsForFree() {
+        return isForFree;
+    }
+
+    public void setIsForFree(Integer isForFree) {
+        this.isForFree = isForFree;
+    }
+
+    @XmlElement
+    public Integer getIsAccessible() {
+        return isAccessible;
+    }
+
+    public void setIsAccessible(Integer isAccessible) {
+        this.isAccessible = isAccessible;
     }
 
 }

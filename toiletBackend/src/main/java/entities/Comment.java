@@ -5,6 +5,7 @@
  */
 package entities;
 
+import helper.GlobalFunc;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,12 +29,18 @@ public class Comment implements Serializable {
     private String creatorId = "";
     private String msg = "";
     private String creationDate = "";
+    private Float rating = 0f;
+
+    public Comment() {
+        this.creationDate = GlobalFunc.getDateWithTime();
+
+    }
+
     /*
      @ManyToOne(optional = false)
      @JoinColumn(name = "POB_ID")
      private Pob pob;
      */
-
     public int getCommentId() {
         return commentId;
     }
@@ -60,6 +67,14 @@ public class Comment implements Serializable {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }       
 
     public String getCreationDate() {
         return creationDate;

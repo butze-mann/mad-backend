@@ -33,6 +33,12 @@ public abstract class AbstractFacade<T> {
         getEntityManager().persist(entity);
     }
 
+    public Integer createPobAndGetId(Pob entity) {
+        getEntityManager().persist(entity);
+        getEntityManager().flush();
+        return entity.getPobId();
+    }
+
     public void addCommentToPob(Comment c, Integer pobId) throws Exception {
         //schauen ob passendes pob gefunden wird        
         Pob p = getEntityManager().find(Pob.class, pobId);
@@ -58,7 +64,7 @@ public abstract class AbstractFacade<T> {
         return p.getCommentCollection();
     }
 
-    public Double setAndGetNewRating(Integer pobId, Integer rating) throws Exception {
+    public Double setAndGetNewRating(Integer pobId, Float rating) throws Exception {
         Pob p = getEntityManager().find(Pob.class, pobId);
         if (p == null) {
             throw new Exception("noPob");

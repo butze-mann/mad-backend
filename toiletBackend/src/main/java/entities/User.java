@@ -23,8 +23,16 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
-    private String deviceId;
-    private String name;
+    private String deviceId = "0000"; 
+    private String name = "Anonymous";
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }        
     
     public String getDeviceId() {
         return deviceId;

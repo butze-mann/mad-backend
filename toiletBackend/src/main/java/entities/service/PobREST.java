@@ -3,7 +3,6 @@ package entities.service;
 import de.hs.os.toiletbackend.NearestGeoPop;
 import entities.Pob;
 import java.util.List;
-import java.util.TreeMap;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -46,7 +45,7 @@ public class PobREST extends AbstractFacade<Pob> {
     @Path("{id}/rate/{rating}")
     @Produces(MediaType.TEXT_PLAIN)
     public Double setRating(@PathParam("id") Integer id,
-            @PathParam("rating") Integer rating,
+            @PathParam("rating") Float rating,
             @DefaultValue("0000") @QueryParam("devId") String deviceId) {
         try {
             //todo nur einmal
@@ -106,10 +105,10 @@ public class PobREST extends AbstractFacade<Pob> {
     }
 
     @POST
-    @Override
     @Consumes(MediaType.APPLICATION_JSON)
-    public void create(Pob entity) {
-        super.create(entity);
+    @Produces(MediaType.TEXT_PLAIN)
+    public Integer createPobString(Pob p) {
+        return super.createPobAndGetId(p);
     }
 
     /**

@@ -19,4 +19,10 @@ public class GlobalFunc {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
         return df.format(date).toString();
     }
+
+    public static String getDateWithTime() {
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm");
+        return df.format(date).toString();
+    }
 }

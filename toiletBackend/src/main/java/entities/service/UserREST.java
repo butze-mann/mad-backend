@@ -69,13 +69,6 @@ public class UserREST extends AbstractFacade<User> {
     }
 
     @GET
-    @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<User> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
