@@ -6,9 +6,9 @@ import com.javadocmd.simplelatlng.util.LengthUnit;
 import de.hs.os.toiletbackend.NearestGeoPop;
 import entities.Comment;
 import entities.Pob;
+import entities.User;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -47,12 +47,21 @@ public abstract class AbstractFacade<T> {
             throw new EJBException("noPob");
         }
 
+        User user = getEntityManager().find(User.class, c.getUser().getUserId());
+
+        if (user != null) {
+            getEntityManager().merge(c.getUser());
+        } else {
+            getEntityManager().persist(c.getUser());
+        }
+
         //comment persisten
         getEntityManager().persist(c);
 
         //dann zur Pob-commentliste hinzufuegen
         p.getCommentCollection().add(c);
-        System.out.println("test____________________________________");
+        System.out.println("Kommentar hinzugefuegt von User: " + c.getUser().getUserId());
+
         getEntityManager().persist(p);
     }
 
@@ -76,7 +85,7 @@ public abstract class AbstractFacade<T> {
 
         rateCount++;
 
-        System.out.println("setNEwRating: rechne " + sumRating + " + " + rating + " / " + rateCount);
+        System.out.println("setNewRating: rechne " + sumRating + " + " + rating + " / " + rateCount);
         Double newRating = (sumRating + rating) / rateCount;
 
         p.setRatingSum(sumRating + rating);

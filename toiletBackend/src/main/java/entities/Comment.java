@@ -7,9 +7,13 @@ package entities;
 
 import helper.GlobalFunc;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,38 +30,20 @@ public class Comment implements Serializable {
     @GeneratedValue
     private int commentId;
 
-    private String creatorId = "";
     private String msg = "";
     private String creationDate = "";
     private Float rating = 0f;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
+    private User user;
+
     public Comment() {
         this.creationDate = GlobalFunc.getDateWithTime();
-
     }
 
-    /*
-     @ManyToOne(optional = false)
-     @JoinColumn(name = "POB_ID")
-     private Pob pob;
-     */
     public int getCommentId() {
         return commentId;
-    }
-
-    /*    public Pob getPob() {
-     return pob;
-     }
-
-     public void setPob(Pob pob) {
-     this.pob = pob;
-     }*/
-    public String getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(String creatorId) {
-        this.creatorId = creatorId;
     }
 
     public String getMsg() {
@@ -74,7 +60,7 @@ public class Comment implements Serializable {
 
     public void setRating(Float rating) {
         this.rating = rating;
-    }       
+    }
 
     public String getCreationDate() {
         return creationDate;
@@ -82,5 +68,13 @@ public class Comment implements Serializable {
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
