@@ -74,9 +74,10 @@ public class PobREST extends AbstractFacade<Pob> {
     @Produces(MediaType.APPLICATION_JSON)
     public List<NearestGeoPop> getNearest(
             @PathParam("lat") Double lat,
-            @PathParam("lnt") Double lnt) {
+            @PathParam("lnt") Double lnt,
+            @QueryParam("maxMeter") Integer maxMeter) {
         try {
-            return super.nearestPob(lat, lnt, 50000.0);
+            return super.nearestPob(lat, lnt, maxMeter);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);

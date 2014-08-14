@@ -97,7 +97,7 @@ public abstract class AbstractFacade<T> {
         return newRating;
     }
 
-    public List<NearestGeoPop> nearestPob(Double fromLat, Double fromLng, Double maxKm) {
+    public List<NearestGeoPop> nearestPob(Double fromLat, Double fromLng, Integer maxMeter) {
         TreeMap<Double, Pob> sortedList = new TreeMap<>();
 
         LatLng fromPoint = new LatLng(fromLat, fromLng);
@@ -110,8 +110,8 @@ public abstract class AbstractFacade<T> {
         //vergleiche alle distances
         for (Pob p : listPob) {
             LatLng tmpPoint = new LatLng(p.getLat(), p.getLnt());
-            Double distance = LatLngTool.distance(fromPoint, tmpPoint, LengthUnit.KILOMETER);
-            if (distance <= maxKm) {
+            Double distance = LatLngTool.distance(fromPoint, tmpPoint, LengthUnit.METER);
+            if (distance <= maxMeter) {
                 sortedList.put(distance, p);
             }
         }
